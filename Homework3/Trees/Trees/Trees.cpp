@@ -174,8 +174,8 @@ void swapLevel(Node<T>* p, int level) {
 		p->right = p->left;
 	}
 	else {
-		if (p->left)printLevel(p->left, level - 1);
-		if (p->right)printLevel(p->right, level - 1);
+		if (p->left)swapLevel(p->left, level - 1);
+		if (p->right)swapLevel(p->right, level - 1);
 	}
 }
 
