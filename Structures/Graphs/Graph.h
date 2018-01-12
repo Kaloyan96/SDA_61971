@@ -2,23 +2,20 @@
 #include "LinkedList.cpp"
 
 template<typename T>
-class Graph{
+class Graph {
 private:
 	LinkedList<LinkedList<T>> graph;
 public:
 	Graph();
 	~Graph();
 
-	Node<T>* getPoint(T, Graph<T> &);
-	Node<T>* getPoint(T, LinkedList<LinkedList<T>> &);
+	Node<T>* getVertex(T, Graph<T> &);
+	Node<T>* getVertex(T, LinkedList<LinkedList<T>> &);
 
-	void addPoint(T, Graph<T> &);
-	void addPoint(T, LinkedList<LinkedList<T>> &);
+	void addVertex(T, Graph<T> &);
+	void addVertex(T, LinkedList<LinkedList<T>> &);
 
-	void addRib(T, T, Graph<T> &);
-	void addRib(T, T, LinkedList<LinkedList<T>> &);
-
-	void createGraph(Graph<T> &);
-	void createGraph(LinkedList<LinkedList<T>> &);
+	void addEdge(T, T, Graph<T> &);
+	void addEdge(T, T, LinkedList<LinkedList<T>> &);
+	void addDoubleEdge(T, T, Graph<T> &);
 };
-
