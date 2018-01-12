@@ -45,10 +45,8 @@ void swapLevel(Node<T>*,int);
 //Task 2
 template <typename T>
 int height(Node<T>* root) {
-	if (root->left && root->right) return max(height(root->left), height(root->right)) + 1;
-	else if (root->left)return height(root->left) + 1;
-	else if (root->right)return height(root->right) + 1;
-	else return LEAF_HEIGHT;//Task requiers that a leaf has height of 0 not 1
+	if (!root) return LEAF_HEIGHT; 
+	else return return max(height(root->left), height(root->right)) + 1;//Task requiers that a leaf has height of 0 not 1
 }
 
 //Task 3
