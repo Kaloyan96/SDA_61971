@@ -63,7 +63,7 @@ void printLevel(Node<T>* p, int level) {
 
 template <typename T>
 void levelOrderTraversal(Node<T>* root) {
-	int n = height->root;
+	int n = height(root);
 	for (int i = 0; i <= n; i++)printLevel(root, i);
 }
 
