@@ -1,12 +1,12 @@
 #include "Graph.h"
 
 template<typename T>
-Node<T>* Graph<T>::getPoint(T targetPoint, Graph<T> &g) {
+Node<T>* Graph<T>::getVertex(T targetPoint, Graph<T> &g) {
 	getPoint(T targetPoint, g.graph);
 }
 
 template<typename T>
-Node<T>* Graph<T>::getPoint(T targetPoint, LinkedList<LinkedList<T>> &g) {
+Node<T>* Graph<T>::getVertex(T targetPoint, LinkedList<LinkedList<T>> &g) {
 	g.iterStart();
 	Node<LinkedList<T>> *p;
 	Node<T> *q;
@@ -19,20 +19,36 @@ Node<T>* Graph<T>::getPoint(T targetPoint, LinkedList<LinkedList<T>> &g) {
 }
 
 template<typename T>
-void Graph<T>::addPoint(T newData, Graph<T> &g) {
-	addPoint(newData, g.graph);
+void Graph<T>::addVertex(T newData, Graph<T> &g) {
+	addVertex(newData, g.graph);
 }
 
 template<typename T>
-void Graph<T>::addPoint(T newData, LinkedList<LinkedList<T>> &g) {
+void Graph<T>::addVertex(T newData, LinkedList<LinkedList<T>> &g) {
 	LinkedList<T> l;
 	l.pushToEnd(newData);
 	g.pushToEnd(l);
 }
 
 template<typename T>
-void Graph<T>::addRib(T from, Graph<T> &g) {//YOU ARE HERE
-	addRib(newData, g.graph);
+void Graph<T>::addEdge(T from, T to, Graph<T> &g) {
+	addEdge(from, to, g.graph);
 }
 
+template<typename T>
+void Graph<T>::addEdge(T from, T to, LinkedList<LinkedList<T>> &g) {
+	Node<T>* q = new Node<T>;
+	q->data = to;
+	q->next = NULL;
+
+	Node<T>* iter = getVertex(from, g);
+	while (iter->next)iter = iter->next;
+	iter->next = q;
+}
+
+template<typename T>
+void Graph<T>::addDoubleEdge(T from, T to, Graph<T> &g) {
+	addEdge(from, to, g.graph);
+	addEdge(to, from, g.graph);
+}
 
