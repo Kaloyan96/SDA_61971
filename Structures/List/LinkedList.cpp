@@ -1,4 +1,4 @@
-#include "LinkedList.h"
+#include "..\include\LinkedList.h"
 
 template<typename T>
 void LinkedList<T>::deleteList() {
@@ -18,7 +18,7 @@ void LinkedList<T>::copyList(LinkedList<T> const& sourceList) {
 		Node<T>* p = sourceList.start;
 		while (p) {
 			pushToEnd(p->data);
-			p = p->data;
+			p = p->next;
 		}
 	}
 }
@@ -99,7 +99,7 @@ template <typename T>
 bool LinkedList<T>::deleteAfter(Node<T> *p, T & probe) {
 	if (p->next) {
 		Node<T>* q = p->next;
-		probe = q->next;
+		probe = q->data;
 		p->next = q->next;
 
 		if (q == end)end = p;
@@ -124,7 +124,7 @@ void LinkedList<T>::deleteTarget(Node<T> *p, T & probe) {
 	}
 	else {
 		Node<T> *q = start;
-		while (q->data != p) q = q->next;
+		while (q->next != p) q = q->next;
 		deleteAfter(q, probe);
 	}
 }
@@ -133,7 +133,7 @@ template<typename T>
 bool LinkedList<T>::deleteBefore(Node<T>* p, T & probe) {
 	if (p != start) {
 		Node<T> *q = start;
-		while (q->data != p) q = q->next;
+		while (q->next != p) q = q->next;
 		deleteTarget(q, probe);
 		return 1;
 	}
