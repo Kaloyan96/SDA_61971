@@ -142,6 +142,17 @@ bool LinkedList<T>::deleteBefore(Node<T>* p, T & probe) {
 }
 
 template<typename T>
+bool LinkedList<T>::hasElement(T const& target){
+    iterStart();
+    Node<T>* p=iterate();
+    while(p){
+        if(p->data==target)return true;
+        p=p->next;
+    }
+    return false;
+}
+
+template<typename T>
 void LinkedList<T>::print() {
 	Node<T>* p = start;
 	while (p) {
