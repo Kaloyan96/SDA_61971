@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "LinkedList.h"
 
 template<typename T>
@@ -39,7 +38,7 @@ LinkedList<T>::LinkedList(LinkedList<T> const& sourceList) {
 template<typename T>
 LinkedList<T>& LinkedList<T>::operator=(LinkedList<T> const& sourceList) {
 	if (this != &sourceList) {
-		deletList();
+		deleteList();
 		copyList(sourceList);
 	}
 	return *this;
@@ -126,7 +125,7 @@ void LinkedList<T>::deleteTarget(Node<T> *p, T & probe) {
 	else {
 		Node<T> *q = start;
 		while (q->data != p) q = q->next;
-		deleteAfter(q, x);
+		deleteAfter(q, probe);
 	}
 }
 
@@ -150,7 +149,7 @@ void LinkedList<T>::print() {
 		p = p->next;
 	}
 
-	std::cout << endl;
+	std::cout << std::endl;
 }
 
 template<typename T>
