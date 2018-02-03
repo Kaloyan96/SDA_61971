@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 
 template <typename T>
@@ -33,6 +32,7 @@ public:
 	bool deleteBefore(Node<T>*, T &);
 	void deleteTarget(Node<T>*, T &);
 
+	bool hasElement(T const&);
 	void print();
 	int length();
 	void concat(LinkedList<T> const&);
