@@ -13,6 +13,7 @@ private:
 public:
     Vertex(){};
     ~Vertex(){};
+    bool operator==(Vertex<T> const&);
 
     void setData(T const&);
     T getData()const;
@@ -38,8 +39,12 @@ public:
     void removeVertex(T const&);
     void removeEdge(T const&,T const&);
 
+    void connectionDFS(Vertex<T>*,LinkedList<Vertex<T>*>&);
+    bool connected();
+    void cycleDFS(Vertex<T>*,Vertex<T>*,LinkedList<Vertex<T>*>&,bool &);
+    bool cyclic();
+
     void print();
-    //void constructFromFile(string const&);
 };
 
 #endif // GRAPH_H
