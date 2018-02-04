@@ -32,7 +32,7 @@ void constructFromFile(string const& fileName, Graph<int> &g){
 void ex1_task2(){
     string fileName;
     cout<<"Input file path, with doubled \\ symbol:\n";
-    //cin>>fileName;
+    cin>>fileName;
 
     Graph<int> g;
     constructFromFile(fileName,g);
