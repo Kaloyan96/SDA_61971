@@ -22,6 +22,8 @@ public:
     void addEdgeTo(Vertex<T>* const);
     void removeEdgeTo(Vertex<T>* const);
     void print();
+
+    int connectivity();
 };
 
 template<typename T>
@@ -44,7 +46,12 @@ public:
     void cycleDFS(Vertex<T>*,Vertex<T>*,LinkedList<Vertex<T>*>&,bool &);
     bool cyclic();
 
+    void findPath(Vertex<T>*,Vertex<T>*,LinkedList<Vertex<T>*>,LinkedList<Vertex<T>*>&,bool&);
+    LinkedList<Vertex<T>*> getPath(T const&,T const&);
+
     void print();
+    int vertexCount();
+    int edgeCount();
 };
 
 #endif // GRAPH_H
