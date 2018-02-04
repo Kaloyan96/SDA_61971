@@ -219,7 +219,7 @@ void Graph<T>::findPath(Vertex<T>* current,Vertex<T>* to,LinkedList<Vertex<T>*> 
     Node<Vertex<T>*>* p=current->getAdjacent()->iterate();
     while(p && !found){
         if(!visited.hasElement(p->data)){
-            connectionDFS(p->data,visited);
+            findPath(p->data,to,visited,path,found);
         }
         p=p->next;
     }
