@@ -1,6 +1,11 @@
 #include "..\include\Graph.h"
 
 template<typename T>
+bool Vertex<T>::operator==(Vertex<T> const& target){
+    return data==target.getData();
+}
+
+template<typename T>
 void Vertex<T>::setData(T const& newData){
     data=newData;
 }
@@ -113,11 +118,21 @@ void Graph<T>::removeVertex(T const& target){
     if(toRemove){
         LinkedList<Vertex<T>*>* adjacentToTarget=toRemove->getAdjacent();
         adjacentToTarget->iterStart();
-        Node<Vertex<T>*>* p=adjacentToTarget->iterate();
-        Node<Vertex<T>*>* q;
-        while(p){
-            removeEdge(toRemove->getData(),p->data->getData());
-            p=p->next;
+        Node<Vertex<T>*>* adjacentIterator=adjacentToTarget->iterate();
+        while(adjacentIterator){
+            removeEdge(toRemove->getData(),adjacentIterator->data->getData());
+            adjacentIterator=adjacentIterator->next;
+        }
+
+        vertexes.iterStart();
+        Node<Vertex<T> >* q = vertexes.iterate();
+        while(q){
+            if(q->data.getData()==target){
+                Vertex<T> probe;
+                vertexes.deleteTarget(q,probe);
+                break;
+            }
+            q=q->next;
         }
     }
 }
@@ -132,6 +147,64 @@ void Graph<T>::removeEdge(T const& first,T const& second){
     }
 }
 
+template<typename T>
+void Graph<T>::connectionDFS(Vertex<T>* current,LinkedList<Vertex<T>*> &visited){
+    visited.pushToEnd(current);//mark as visited
+
+    current->getAdjacent()->iterStart();
+    Node<Vertex<T>*>* p=current->getAdjacent()->iterate();
+    while(p){
+        if(!visited.hasElement(p->data)){
+            connectionDFS(p->data,visited);
+        }
+        p=p->next;
+    }
+}
+
+template<typename T>
+bool Graph<T>::connected(){
+    LinkedList<Vertex<T>*> visited;
+    vertexes.iterStart();
+    Vertex<T>* start=&vertexes.iterate()->data;
+    connectionDFS(start,visited);
+
+    visited.iterStart();
+    Node<Vertex<T>*>* p=visited.iterate();
+
+
+    if(visited.length()==vertexes.length())return true;
+    return false;
+}
+
+template<typename T>
+void Graph<T>::cycleDFS(Vertex<T>* current,Vertex<T>* parent,LinkedList<Vertex<T>*> &visited,bool &res){
+    visited.pushToEnd(current);//mark as visited
+
+    current->getAdjacent()->iterStart();
+    Node<Vertex<T>*>* p=current->getAdjacent()->iterate();
+    while(p && !res){
+        if(p->data==parent){
+            p=p->next;
+            if(!p)break;
+        }
+
+        if(visited.hasElement(p->data)){
+            res=true;
+        }
+        else cycleDFS(p->data,current,visited,res);
+        p=p->next;
+    }
+}
+
+template<typename T>
+bool Graph<T>::cyclic(){
+    LinkedList<Vertex<T>*> visited;
+    vertexes.iterStart();
+    Vertex<T>* start=&vertexes.iterate()->data;
+    bool res=false;
+    cycleDFS(start,start,visited,res);
+    return res;
+}
 
 template<typename T>
 void Graph<T>::print(){
@@ -142,24 +215,3 @@ void Graph<T>::print(){
         p=p->next;
     }
 }
-/*
-template<typename T>
-void Graph<T>::constructFromFile(string const& fileName){
-    ifstream file;
-    file.open(fileName.c_str(),ios::in);
-    if(!file){
-		std::cout<<"Error in opening file!!!\n";
-		return ;
-	}
-
-    char ch;
-	while (1){
-		file >> noskipws >> ch;
-		if( file.eof() ){
-            break;
-		}
-	}
-	file.close();
-}
-*/
-
