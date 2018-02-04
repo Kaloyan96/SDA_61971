@@ -68,6 +68,11 @@ void Vertex<T>::print(){
 }
 
 template<typename T>
+int Vertex<T>::connectivity(){
+    return adjacent.length();
+}
+
+template<typename T>
 void Graph<T>::addVertex(T const& newData){
     if(!getVertex(newData)){
         Vertex<T> newV;
@@ -168,10 +173,6 @@ bool Graph<T>::connected(){
     Vertex<T>* start=&vertexes.iterate()->data;
     connectionDFS(start,visited);
 
-    visited.iterStart();
-    Node<Vertex<T>*>* p=visited.iterate();
-
-
     if(visited.length()==vertexes.length())return true;
     return false;
 }
@@ -207,11 +208,69 @@ bool Graph<T>::cyclic(){
 }
 
 template<typename T>
+void Graph<T>::findPath(Vertex<T>* current,Vertex<T>* to,LinkedList<Vertex<T>*> visited,LinkedList<Vertex<T>*> &path,bool &found){
+    visited.pushToEnd(current);//mark as visited
+    if(current==to){
+        found=true;
+        path=visited;
+    }
+
+    current->getAdjacent()->iterStart();
+    Node<Vertex<T>*>* p=current->getAdjacent()->iterate();
+    while(p && !found){
+        if(!visited.hasElement(p->data)){
+            connectionDFS(p->data,visited);
+        }
+        p=p->next;
+    }
+}
+
+template<typename T>
+LinkedList<Vertex<T>*> Graph<T>::getPath(T const& from,T const& to){
+    Vertex<T>* fromV = getVertex(from);
+    Vertex<T>* toV = getVertex(to);
+    LinkedList<Vertex<T>*> visited;
+    LinkedList<Vertex<T>*> path;
+    bool found=false;
+    findPath(fromV,toV,visited,path,found);
+    return path;
+}
+
+template<typename T>
 void Graph<T>::print(){
+    int v=vertexCount();
+    int e=edgeCount();
+    cout<<"This graph has ";
+    if(v==0)cout<<"no vertexes ";
+    else if(v==1)cout<<v<<" vertex ";
+    else cout<<v<<" vertexes ";
+    cout<<"and ";
+    if(e==0)cout<<"no edges.";
+    else if(e==1)cout<<e<<" edge.";
+    else cout<<e<<" edges.\n";
+    cout<<"They are arranged as follows:\n";
+
     vertexes.iterStart();
     Node<Vertex<T> >* p=vertexes.iterate();
     while(p){
         p->data.print();
         p=p->next;
     }
+}
+
+template<typename T>
+int Graph<T>::vertexCount(){
+    return vertexes.length();
+}
+
+template<typename T>
+int Graph<T>::edgeCount(){
+    int sum=0;
+    vertexes.iterStart();
+    Node<Vertex<T> >* p=vertexes.iterate();
+    while(p){
+        sum+=p->data.connectivity();
+        p=p->next;
+    }
+    return sum/2;
 }
